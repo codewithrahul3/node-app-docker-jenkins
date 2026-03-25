@@ -4,3 +4,4 @@ node_modules
 Dockerfile.jenkins
 jenkins-key.pem
 *.log
+*.tar
