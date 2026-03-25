@@ -17,7 +17,7 @@ pipeline{
       stage('Build Docker Iamage'){
         steps{
           echo "building docker image"
-          sh "docker build -t ${IMAGE_NAME} ."
+          sh "docker build -t ${env.IMAGE_NAME} ."
         }
       }
 
@@ -33,7 +33,7 @@ pipeline{
           sshagent(['VM_CRED']){
 
             sh """
-            scp -o StrictHostKeyChecking=no ${VM_USER}@{VM_IP} '
+            scp -o StrictHostKeyChecking=no ${env.VM_USER}@{env.VM_IP} '
             docker load < ${env.IMAGE_NAME}.tar &&
             docker stop node-container || true &&
             docker rm node-container || true &&
