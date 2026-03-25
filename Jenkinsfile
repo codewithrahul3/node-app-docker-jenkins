@@ -8,6 +8,12 @@ pipeline{
     }
     
     stages{
+      stage('Clean Workspace'){
+        steps{
+          deleteDir()
+        }
+      }
+      
       stage('clone code'){
         steps{
           echo "cloning repo.."
