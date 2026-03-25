@@ -34,7 +34,7 @@ pipeline{
 
             sh """
             scp -o StrictHostKeyChecking=no ${VM_USER}@{VM_IP} '
-            docker load < ${IMAGE_NAME}.tar $$ 
+            docker load < ${IMAGE_NAME}.tar &&
             docker stop node-container || true &&
             docker rm node-container || true &&
             docker run -d -p 3000:3000 --name node-container ${IMAGE_NAME}
