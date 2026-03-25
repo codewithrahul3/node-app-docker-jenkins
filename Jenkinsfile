@@ -35,26 +35,35 @@ pipeline{
 
       stage('Save image'){
         steps{
-          echo "saving docker image"
           sh "docker save ${env.IMAGE_NAME} > ${env.IMAGE_NAME}.tar"
-        }
       }
+  }
 
-      stage('Copy image to VM'){
+    stage('Copy image to VM'){
         steps{
           sshagent(['VM_CRED']){
-
             sh """
-            scp -o StrictHostKeyChecking=no ${env.IMAGE_NAME}.tar ${env.VM_USER}@${env.VM_IP}:/home/${env.VM_USER}/ '
+            scp -o StrictHostKeyChecking=no ${env.IMAGE_NAME}.tar ${env.VM_USER}@${env.VM_IP}:/home/${env.VM_USER}/
+              """
+        }
+      }
+  }
+
+    stage('Deploy on VM'){
+        steps{
+          sshagent(['VM_CRED']){
+            sh """
+            ssh -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} '
             docker load < ${env.IMAGE_NAME}.tar &&
             docker stop node-container || true &&
             docker rm node-container || true &&
             docker run -d -p 3000:3000 --name node-container ${env.IMAGE_NAME}
             '
             """
-          }
         }
-      }
+    }
+}
+    
     }
   }
     
