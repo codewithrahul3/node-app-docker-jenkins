@@ -13,6 +13,12 @@ pipeline{
           deleteDir()
         }
       }
+
+      stage('Checkout SCM'){
+        steps{
+          checkout scm
+        }
+      }
       
       stage('clone code'){
         steps{
