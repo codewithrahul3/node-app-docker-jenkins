@@ -33,7 +33,7 @@ pipeline{
           sshagent(['VM_CRED']){
 
             sh """
-            scp -o StrictHostKeyChecking=no ${env.VM_USER}@{env.VM_IP} '
+            scp -o StrictHostKeyChecking=no ${env.VM_USER}@${env.VM_IP} '
             docker load < ${env.IMAGE_NAME}.tar &&
             docker stop node-container || true &&
             docker rm node-container || true &&
