@@ -1,0 +1,6 @@
+node_modules
+.git
+.gitignore
+Dockerfile.jenkins
+jenkins-key.pem
+*.log
