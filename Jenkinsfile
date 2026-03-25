@@ -1,7 +1,7 @@
 pipeline{
   agent any
     environment{
-      IAMGE_NAME="node-app"
+      IMAGE_NAME="node-app"
       VM_IP="98.93.71.166"
       VM_USER="ubuntu"
       
@@ -17,14 +17,14 @@ pipeline{
       stage('Build Docker Iamage'){
         steps{
           echo "building docker image"
-          sh "docker build -t ${IAMGE_NAME} ."
+          sh "docker build -t ${IMAGE_NAME} ."
         }
       }
 
       stage('Save image'){
         steps{
           echo "saving docker image"
-          sh "docker save ${IAMGE_NAME} > ${IMAGE_NAME}.tar"
+          sh "docker save ${env.IMAGE_NAME} > ${env.IMAGE_NAME}.tar"
         }
       }
 
@@ -34,10 +34,10 @@ pipeline{
 
             sh """
             scp -o StrictHostKeyChecking=no ${VM_USER}@{VM_IP} '
-            docker load < ${IMAGE_NAME}.tar &&
+            docker load < ${env.IMAGE_NAME}.tar &&
             docker stop node-container || true &&
             docker rm node-container || true &&
-            docker run -d -p 3000:3000 --name node-container ${IMAGE_NAME}
+            docker run -d -p 3000:3000 --name node-container ${env.IMAGE_NAME}
             '
             """
           }
@@ -45,6 +45,4 @@ pipeline{
       }
     }
   }
-        
-        
     
