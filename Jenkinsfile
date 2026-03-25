@@ -2,7 +2,7 @@ pipeline{
   agent any
     environment{
       IMAGE_NAME="node-app"
-      VM_IP="98.93.71.166"
+      VM_IP="3.91.44.204"
       VM_USER="ubuntu"
       
     }
