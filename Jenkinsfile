@@ -30,7 +30,7 @@ pipeline{
 
       stage('Copy image to VM'){
         steps{
-          sshagent(['VM-CRED']){
+          sshagent(['VM_CRED']){
 
             sh """
             scp -o StrictHostKeyChecking=no ${VM_USER}@{VM_IP} '
